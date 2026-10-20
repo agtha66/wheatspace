@@ -1,0 +1,46 @@
+name: Publish GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Assemble public frontend
+        env:
+          SUPABASE_URL: ${{ vars.SUPABASE_URL }}
+          SUPABASE_PUBLISHABLE_KEY: ${{ vars.SUPABASE_PUBLISHABLE_KEY }}
+        run: |
+          test -n "$SUPABASE_URL" || (echo "Set the SUPABASE_URL repository variable." && exit 1)
+          test -n "$SUPABASE_PUBLISHABLE_KEY" || (echo "Set the SUPABASE_PUBLISHABLE_KEY repository variable." && exit 1)
+          mkdir -p dist
+          cp index.html admin.html auth.js export.js script.js style.css social-login.css dist/
+          python -c "import json, os; p='dist/config.js'; open(p,'w').write('window.WHEATSPACE_CONFIG = '+json.dumps({'apiBase': os.environ['SUPABASE_URL'].rstrip('/')+'/functions/v1/api', 'publishableKey': os.environ['SUPABASE_PUBLISHABLE_KEY']})+';'+chr(10))"
+          touch dist/.nojekyll
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
