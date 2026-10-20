@@ -1,0 +1,325 @@
+/* WheatSpace 社交登录样式
+ * 品牌按钮样式规范
+ */
+
+/* =============================================
+ * 社交登录按钮基础样式
+ * ============================================= */
+
+.social-login-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 20px 0;
+}
+
+.social-login-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 14px 20px;
+    border-radius: 12px;
+    border: 2px solid transparent;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    user-select: none;
+}
+
+.social-login-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.social-login-btn:active {
+    transform: translateY(0);
+}
+
+.social-login-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+.social-login-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.7s;
+}
+
+.social-login-btn:hover::before {
+    left: 100%;
+}
+
+.social-login-btn-icon {
+    font-size: 18px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.social-login-btn-text {
+    flex-grow: 1;
+    text-align: center;
+    letter-spacing: 0.3px;
+}
+
+/* =============================================
+ * Google 登录按钮样式
+ * ============================================= */
+
+.btn-google {
+    background: linear-gradient(135deg, #4285F4 0%, #4285F4 25%, #34A853 25%, #34A853 50%, #FBBC05 50%, #FBBC05 75%, #EA4335 75%, #EA4335 100%);
+    background-size: 400% 400%;
+    color: white;
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 6px 20px rgba(66, 133, 244, 0.3);
+    animation: google-gradient 8s ease infinite;
+}
+
+.btn-google:hover {
+    background-position: 100% 50%;
+    box-shadow: 0 12px 30px rgba(66, 133, 244, 0.4);
+}
+
+.btn-google .social-login-btn-icon {
+    background: white;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    padding: 4px;
+}
+
+.btn-google .social-login-btn-icon svg {
+    width: 16px;
+    height: 16px;
+}
+
+@keyframes google-gradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* =============================================
+ * GitHub 登录按钮样式
+ * ============================================= */
+
+.btn-github {
+    background: linear-gradient(135deg, #24292e 0%, #24292e 50%, #2b3137 50%, #2b3137 100%);
+    color: white;
+    border-color: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 6px 20px rgba(36, 41, 46, 0.3);
+    position: relative;
+}
+
+.btn-github::after {
+    content: '';
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    right: 1px;
+    bottom: 1px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 100%);
+    border-radius: 10px;
+    pointer-events: none;
+}
+
+.btn-github:hover {
+    background: linear-gradient(135deg, #2b3137 0%, #24292e 100%);
+    box-shadow: 0 12px 30px rgba(36, 41, 46, 0.4);
+}
+
+.btn-github .social-login-btn-icon {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    padding: 4px;
+    backdrop-filter: blur(4px);
+}
+
+/* =============================================
+ * 分离线样式
+ * ============================================= */
+
+.login-separator {
+    display: flex;
+    align-items: center;
+    margin: 24px 0;
+    color: #9ca3af;
+    font-size: 13px;
+}
+
+.login-separator::before,
+.login-separator::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #e5e7eb, transparent);
+}
+
+.login-separator-text {
+    padding: 0 12px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+/* =============================================
+ * 响应式调整
+ * ============================================= */
+
+@media (max-width: 640px) {
+    .social-login-btn {
+        padding: 12px 16px;
+        font-size: 14px;
+        border-radius: 10px;
+    }
+    
+    .social-login-btn-icon {
+        font-size: 16px;
+        width: 22px;
+        height: 22px;
+    }
+    
+    .btn-google .social-login-btn-icon,
+    .btn-github .social-login-btn-icon {
+        width: 22px;
+        height: 22px;
+    }
+}
+
+@media (max-width: 480px) {
+    .social-login-container {
+        gap: 10px;
+    }
+    
+    .social-login-btn {
+        padding: 11px 14px;
+    }
+}
+
+/* =============================================
+ * 加载状态样式
+ * ============================================= */
+
+.social-login-btn-loading {
+    position: relative;
+    color: transparent !important;
+}
+
+.social-login-btn-loading::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: 50%;
+    left: 50%;
+    margin-left: -10px;
+    margin-top: -10px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: social-login-spinner 0.8s linear infinite;
+}
+
+@keyframes social-login-spinner {
+    to { transform: rotate(360deg); }
+}
+
+/* =============================================
+ * 暗色模式支持
+ * ============================================= */
+
+@media (prefers-color-scheme: dark) {
+    .login-separator {
+        color: #4b5563;
+    }
+    
+    .login-separator::before,
+    .login-separator::after {
+        background: linear-gradient(90deg, transparent, #374151, transparent);
+    }
+}
+
+/* =============================================
+ * 无障碍支持
+ * ============================================= */
+
+.social-login-btn:focus-visible {
+    outline: 3px solid rgba(66, 133, 244, 0.5);
+    outline-offset: 2px;
+}
+
+.social-login-btn:focus:not(:focus-visible) {
+    outline: none;
+}
+
+/* =============================================
+ * 工具类
+ * ============================================= */
+
+.social-login-full-width {
+    width: 100%;
+}
+
+.social-login-auto-width {
+    width: auto;
+    min-width: 200px;
+}
+
+.social-login-btn-small {
+    padding: 10px 16px;
+    font-size: 14px;
+    border-radius: 10px;
+}
+
+.social-login-btn-large {
+    padding: 16px 24px;
+    font-size: 16px;
+    border-radius: 14px;
+}
+
+/* =============================================
+ * 品牌颜色变量（CSS自定义属性）
+ * ============================================= */
+
+:root {
+    /* Google品牌色 */
+    --google-blue: #4285F4;
+    --google-green: #34A853;
+    --google-yellow: #FBBC05;
+    --google-red: #EA4335;
+    
+    /* GitHub品牌色 */
+    --github-dark: #24292e;
+    --github-darker: #2b3137;
+    
+    /* WheatSpace品牌色 */
+    --wheat-primary: #745B72;
+    --wheat-secondary: #5C7995;
+    --wheat-accent: #E6BCBC;
+    --wheat-light: #F7F7F4;
+    --wheat-dark: #111111;
+}
+
+/* 暗色模式变量 */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --wheat-light: #1a1a1a;
+        --wheat-dark: #f8f9fa;
+    }
+}
