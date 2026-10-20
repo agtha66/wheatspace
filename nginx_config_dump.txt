@@ -1,0 +1,418 @@
+# configuration file /www/server/nginx/conf/nginx.conf:
+worker_processes  1;
+
+events {
+    worker_connections  1024;
+}
+
+http {
+    include       mime.types;
+    include /www/server/panel/vhost/nginx/*.conf;
+    default_type  application/octet-stream;
+
+    sendfile        on;
+    keepalive_timeout  65;
+
+}
+# configuration file /www/server/nginx/conf/mime.types:
+
+types {
+    text/html                                        html htm shtml;
+    text/css                                         css;
+    text/xml                                         xml;
+    image/gif                                        gif;
+    image/jpeg                                       jpeg jpg;
+    application/javascript                           js;
+    application/atom+xml                             atom;
+    application/rss+xml                              rss;
+
+    text/mathml                                      mml;
+    text/plain                                       txt;
+    text/vnd.sun.j2me.app-descriptor                 jad;
+    text/vnd.wap.wml                                 wml;
+    text/x-component                                 htc;
+
+    image/avif                                       avif;
+    image/png                                        png;
+    image/svg+xml                                    svg svgz;
+    image/tiff                                       tif tiff;
+    image/vnd.wap.wbmp                               wbmp;
+    image/webp                                       webp;
+    image/x-icon                                     ico;
+    image/x-jng                                      jng;
+    image/x-ms-bmp                                   bmp;
+
+    font/woff                                        woff;
+    font/woff2                                       woff2;
+
+    application/java-archive                         jar war ear;
+    application/json                                 json;
+    application/mac-binhex40                         hqx;
+    application/msword                               doc;
+    application/pdf                                  pdf;
+    application/postscript                           ps eps ai;
+    application/rtf                                  rtf;
+    application/vnd.apple.mpegurl                    m3u8;
+    application/vnd.google-earth.kml+xml             kml;
+    application/vnd.google-earth.kmz                 kmz;
+    application/vnd.ms-excel                         xls;
+    application/vnd.ms-fontobject                    eot;
+    application/vnd.ms-powerpoint                    ppt;
+    application/vnd.oasis.opendocument.graphics      odg;
+    application/vnd.oasis.opendocument.presentation  odp;
+    application/vnd.oasis.opendocument.spreadsheet   ods;
+    application/vnd.oasis.opendocument.text          odt;
+    application/vnd.openxmlformats-officedocument.presentationml.presentation
+                                                     pptx;
+    application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+                                                     xlsx;
+    application/vnd.openxmlformats-officedocument.wordprocessingml.document
+                                                     docx;
+    application/vnd.wap.wmlc                         wmlc;
+    application/wasm                                 wasm;
+    application/x-7z-compressed                      7z;
+    application/x-cocoa                              cco;
+    application/x-java-archive-diff                  jardiff;
+    application/x-java-jnlp-file                     jnlp;
+    application/x-makeself                           run;
+    application/x-perl                               pl pm;
+    application/x-pilot                              prc pdb;
+    application/x-rar-compressed                     rar;
+    application/x-redhat-package-manager             rpm;
+    application/x-sea                                sea;
+    application/x-shockwave-flash                    swf;
+    application/x-stuffit                            sit;
+    application/x-tcl                                tcl tk;
+    application/x-x509-ca-cert                       der pem crt;
+    application/x-xpinstall                          xpi;
+    application/xhtml+xml                            xhtml;
+    application/xspf+xml                             xspf;
+    application/zip                                  zip;
+
+    application/octet-stream                         bin exe dll;
+    application/octet-stream                         deb;
+    application/octet-stream                         dmg;
+    application/octet-stream                         iso img;
+    application/octet-stream                         msi msp msm;
+
+    audio/midi                                       mid midi kar;
+    audio/mpeg                                       mp3;
+    audio/ogg                                        ogg;
+    audio/x-m4a                                      m4a;
+    audio/x-realaudio                                ra;
+
+    video/3gpp                                       3gpp 3gp;
+    video/mp2t                                       ts;
+    video/mp4                                        mp4;
+    video/mpeg                                       mpeg mpg;
+    video/quicktime                                  mov;
+    video/webm                                       webm;
+    video/x-flv                                      flv;
+    video/x-m4v                                      m4v;
+    video/x-mng                                      mng;
+    video/x-ms-asf                                   asx asf;
+    video/x-ms-wmv                                   wmv;
+    video/x-msvideo                                  avi;
+}
+
+# configuration file /www/server/panel/vhost/nginx/0.site_total_log_format.conf:
+log_format site_total escape=json '{'
+            '"server_addr": "$server_addr",'
+            '"server_port": $server_port,'
+            '"host":"$http_host",'
+            '"x_forwarded_for":"$http_x_forwarded_for",'
+            '"x_real_ip":"$http_x_real_ip",'
+            '"x_forwarded":"$http_x_forwarded",'
+            '"forwarded_for":"$http_forwarded_for",'
+            '"forwarded":"$http_forwarded",'
+            '"true_client_ip":"$http_true_client_ip",'
+            '"client_ip":"$http_client_ip",'
+            '"ali_cdn_real_ip":"$http_ali_cdn_real_ip",'
+            '"cdn_src_ip":"$http_cdn_src_ip",'
+            '"cdn_real_ip":"$http_cdn_real_ip",'
+            '"cf_connecting_ip":"$http_cf_connecting_ip",'
+            '"x_cluster_client_ip":"$http_x_cluster_client_ip",'
+            '"wl_proxy_client_ip":"$http_wl_proxy_client_ip",'
+            '"proxy_client_ip":"$http_proxy_client_ip",'
+            '"remote_addr":"$remote_addr",'
+            '"remote_port":$remote_port,'
+            '"remote_user":"$remote_user",'
+            '"https":"$https",'
+            '"req_length":$request_length,'
+            '"method":"$request_method",'
+            '"uri":"$request_uri",'
+            '"request_filename":"$request_filename",'
+            '"status":$status,'
+            '"sent_bytes":$bytes_sent,'
+            '"body_bytes_sent":$body_bytes_sent,'
+            '"content_type":"$sent_http_content_type",'
+            '"content_encoding":"$sent_http_content_encoding",'
+            '"referer":"$http_referer",'
+            '"user_agent":"$http_user_agent",'
+            '"upstream_addr":"$upstream_addr",'
+            '"upstream_status":$upstream_status,'
+            '"upstream_response_time":$upstream_response_time,'
+            '"take_time":$request_time,'
+            '"msec":$msec,'
+            '"cookie":"$http_cookie",'
+            '"accept":"$http_accept",'
+            '"accept_language":"$http_accept_language",'
+            '"accept_encoding":"$http_accept_encoding"'
+        '}';
+# configuration file /www/server/panel/vhost/nginx/0.websocket.conf:
+map $http_upgrade $connection_upgrade {
+    default upgrade;
+    ''  close;
+}
+# configuration file /www/server/panel/vhost/nginx/html_wheatspace.top.conf:
+server
+{
+    listen 80;
+    listen 443 ssl;
+    listen 443 quic;
+    listen [::]:443 ssl;
+    listen [::]:443 quic;
+    http2 on;
+    listen [::]:80;
+    server_name wheatspace.top;
+    index index.html index.htm default.htm default.html;
+    root /www/wwwroot/wheatspace.top;
+    include /www/server/panel/vhost/nginx/extension/wheatspace.top/*.conf;
+    #CERT-APPLY-CHECK--START
+    # 用于SSL证书申请时的文件验证相关配置 -- 请勿删除并保持这段设置在优先级高的位置
+    include /www/server/panel/vhost/nginx/well-known/wheatspace.top.conf;
+    #CERT-APPLY-CHECK--END
+
+    #SSL-START SSL相关配置，请勿删除或修改下一行带注释的404规则
+    #error_page 404/404.html;
+    ssl_certificate    /www/server/panel/vhost/cert/wheatspace.top/fullchain.pem;
+    ssl_certificate_key    /www/server/panel/vhost/cert/wheatspace.top/privkey.pem;
+    ssl_protocols TLSv1.1 TLSv1.2 TLSv1.3;
+    ssl_ciphers EECDH+CHACHA20:EECDH+CHACHA20-draft:EECDH+AES128:RSA+AES128:EECDH+AES256:RSA+AES256:EECDH+3DES:RSA+3DES:!MD5;
+    ssl_prefer_server_ciphers on;
+    ssl_session_tickets on;
+    ssl_session_cache shared:SSL:10m;
+    ssl_session_timeout 10m;
+    add_header Strict-Transport-Security "max-age=31536000";
+    add_header Alt-Svc 'quic=":443"; h3=":443"; h3-29=":443"; h3-27=":443";h3-25=":443"; h3-T050=":443"; h3-Q050=":443";h3-Q049=":443";h3-Q048=":443"; h3-Q046=":443"; h3-Q043=":443"';
+    error_page 497  https://$host$request_uri;
+
+    #SSL-END
+
+    #ERROR-PAGE-START  错误页配置，可以注释、删除或修改
+    #error_page 404 /404.html;
+    #error_page 502 /502.html;
+    #ERROR-PAGE-END
+
+    #REWRITE-START URL重写规则引用,修改后将导致面板设置的伪静态规则失效
+    include /www/server/panel/vhost/rewrite/html_wheatspace.top.conf;
+    #REWRITE-END
+
+    #禁止访问的文件或目录
+    location ~ ^/(\.user.ini|\.htaccess|\.git|\.env|\.svn|\.project|LICENSE|README.md)
+    {
+        return 404;
+    }
+
+    #一键申请SSL证书验证目录相关设置
+    location ~ \.well-known{
+        allow all;
+    }
+
+    #禁止在证书验证目录放入敏感文件
+    if ( $uri ~ "^/\.well-known/.*\.(php|jsp|py|js|css|lua|ts|go|zip|tar\.gz|rar|7z|sql|bak)$" ) {
+        return 403;
+    }
+
+    location ~ .*\\.(gif|jpg|jpeg|png|bmp|swf)$
+    {
+        expires      30d;
+        error_log /dev/null;
+        access_log /dev/null;
+    }
+
+    location ~ .*\\.(js|css)?$
+    {
+        expires      12h;
+        error_log /dev/null;
+        access_log /dev/null;
+    }
+    access_log  /www/wwwlogs/wheatspace.top.log;
+    error_log  /www/wwwlogs/wheatspace.top.error.log;
+}
+# configuration file /www/server/panel/vhost/nginx/extension/wheatspace.top/site_total.conf:
+access_log syslog:server=unix:/tmp/site_total.sock,nohostname,tag=1__access site_total;
+# configuration file /www/server/panel/vhost/nginx/well-known/wheatspace.top.conf:
+
+# configuration file /www/server/panel/vhost/rewrite/html_wheatspace.top.conf:
+# 请将伪静态规则或自定义NGINX配置填写到此处
+
+# configuration file /www/server/panel/vhost/nginx/phpfpm_status.conf:
+server {
+    listen 80;
+    server_name 127.0.0.1;
+    allow 127.0.0.1;
+    location /nginx_status {
+        stub_status on;
+        access_log off;
+    }
+    location /phpfpm_52_status {
+        fastcgi_pass unix:/tmp/php-cgi-52.sock;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $fastcgi_script_name;
+    }
+    location /phpfpm_53_status {
+        fastcgi_pass unix:/tmp/php-cgi-53.sock;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $fastcgi_script_name;
+    }
+    location /phpfpm_54_status {
+        fastcgi_pass unix:/tmp/php-cgi-54.sock;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $fastcgi_script_name;
+    }
+    location /phpfpm_55_status {
+        fastcgi_pass unix:/tmp/php-cgi-55.sock;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $fastcgi_script_name;
+    }
+    location /phpfpm_56_status {
+        fastcgi_pass unix:/tmp/php-cgi-56.sock;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $fastcgi_script_name;
+    }
+    location /phpfpm_70_status {
+        fastcgi_pass unix:/tmp/php-cgi-70.sock;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $fastcgi_script_name;
+    }
+    location /phpfpm_71_status {
+        fastcgi_pass unix:/tmp/php-cgi-71.sock;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $fastcgi_script_name;
+    }
+    location /phpfpm_72_status {
+        fastcgi_pass unix:/tmp/php-cgi-72.sock;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $fastcgi_script_name;
+    }
+    location /phpfpm_73_status {
+        fastcgi_pass unix:/tmp/php-cgi-73.sock;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $fastcgi_script_name;
+    }
+    location /phpfpm_74_status {
+        fastcgi_pass unix:/tmp/php-cgi-74.sock;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $fastcgi_script_name;
+    }
+    location /phpfpm_75_status {
+        fastcgi_pass unix:/tmp/php-cgi-75.sock;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $fastcgi_script_name;
+    }
+    location /phpfpm_80_status {
+        fastcgi_pass unix:/tmp/php-cgi-80.sock;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $fastcgi_script_name;
+    }
+    location /phpfpm_81_status {
+        fastcgi_pass unix:/tmp/php-cgi-81.sock;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $fastcgi_script_name;
+    }
+    location /phpfpm_82_status {
+        fastcgi_pass unix:/tmp/php-cgi-82.sock;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $fastcgi_script_name;
+    }
+    location /phpfpm_83_status {
+        fastcgi_pass unix:/tmp/php-cgi-83.sock;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $fastcgi_script_name;
+    }
+    location /phpfpm_84_status {
+        fastcgi_pass unix:/tmp/php-cgi-84.sock;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $fastcgi_script_name;
+    }
+    location /phpfpm_85_status {
+        fastcgi_pass unix:/tmp/php-cgi-85.sock;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $fastcgi_script_name;
+    }
+}
+
+# configuration file /www/server/nginx/conf/fastcgi_params:
+
+fastcgi_param  QUERY_STRING       $query_string;
+fastcgi_param  REQUEST_METHOD     $request_method;
+fastcgi_param  CONTENT_TYPE       $content_type;
+fastcgi_param  CONTENT_LENGTH     $content_length;
+
+fastcgi_param  SCRIPT_NAME        $fastcgi_script_name;
+fastcgi_param  REQUEST_URI        $request_uri;
+fastcgi_param  DOCUMENT_URI       $document_uri;
+fastcgi_param  DOCUMENT_ROOT      $document_root;
+fastcgi_param  SERVER_PROTOCOL    $server_protocol;
+fastcgi_param  REQUEST_SCHEME     $scheme;
+fastcgi_param  HTTPS              $https if_not_empty;
+
+fastcgi_param  GATEWAY_INTERFACE  CGI/1.1;
+fastcgi_param  SERVER_SOFTWARE    nginx/$nginx_version;
+
+fastcgi_param  REMOTE_ADDR        $remote_addr;
+fastcgi_param  REMOTE_PORT        $remote_port;
+fastcgi_param  SERVER_ADDR        $server_addr;
+fastcgi_param  SERVER_PORT        $server_port;
+fastcgi_param  SERVER_NAME        $server_name;
+
+# PHP only, required if PHP was built with --enable-force-cgi-redirect
+fastcgi_param  REDIRECT_STATUS    200;
+
+# configuration file /www/server/panel/vhost/nginx/waf2monitor_data.conf:
+map $http_host $waf2monitor_blocked {
+    default  "";
+}
+map $remote_addr $waf_ip_remote_addr {
+    default  "";
+}
+map $http_host $waf_status_infos {
+    default  "";
+}
+
+# configuration file /www/server/panel/vhost/nginx/wheatspace.top.conf:
+server {
+    listen       80;
+    server_name  wheatspace.top www.wheatspace.top;
+
+    root   /www/wwwroot/wheatspace.top;
+    index  index.html;
+
+    gzip on;
+    gzip_types text/plain text/css application/javascript application/json image/svg+xml;
+    gzip_min_length 1024;
+
+    location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
+        expires 30d;
+        add_header Cache-Control "public, no-transform";
+    }
+
+    location /api/ {
+        proxy_pass http://127.0.0.1:8080;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+    add_header X-Frame-Options "SAMEORIGIN";
+    add_header X-Content-Type-Options "nosniff";
+    add_header X-XSS-Protection "1; mode=block";
+}
+

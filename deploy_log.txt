@@ -1,0 +1,47 @@
+=======================================================
+  WheatSpace Deploy Script
+=======================================================
+
+[1/6] Connecting to 124.156.180.128...
+    WARN: password auth failed, trying key auth...
+
+  ERROR: Cannot connect to server.
+
+  The server seems to have password auth disabled.
+  Please do ONE of the following:
+
+  Option A) Enable password auth on server:
+    Edit /etc/ssh/sshd_config:
+      PasswordAuthentication yes
+      PermitRootLogin yes
+    Then: systemctl restart sshd
+
+  Option B) Run these manual commands:
+
+  --- UPLOAD FILES ---
+  scp "e:\personal\Vibecoding\TraeÏîÄ¿\WheatSpace2.0\other\index.html" root@124.156.180.128:/www/wwwroot/wheatspace.top/index.html
+
+  --- SSH THEN RUN ---
+  ssh root@124.156.180.128
+  mkdir -p /www/wwwroot/wheatspace.top
+  chmod 755 /www/wwwroot/wheatspace.top
+  chmod 644 /www/wwwroot/wheatspace.top/index.html
+  chown -R www:www /www/wwwroot/wheatspace.top || chown -R nginx:nginx /www/wwwroot/wheatspace.top
+
+  --- NGINX CONFIG (paste as /etc/nginx/conf.d/wheatspace.conf) ---
+  server {
+      listen 80;
+      server_name wheatspace.top www.wheatspace.top;
+      root /www/wwwroot/wheatspace.top;
+      index index.html;
+      gzip on;
+      location ~* \.(js|css|png|jpg|ico|svg|woff2)$ {
+          expires 30d;
+      }
+      location / {
+          try_files $uri $uri/ /index.html;
+      }
+  }
+
+  --- RELOAD NGINX ---
+  nginx -t && systemctl reload nginx
