@@ -27,7 +27,7 @@ jobs:
           test -n "$SUPABASE_URL" || (echo "Set the SUPABASE_URL repository variable." && exit 1)
           test -n "$SUPABASE_PUBLISHABLE_KEY" || (echo "Set the SUPABASE_PUBLISHABLE_KEY repository variable." && exit 1)
           mkdir -p dist
-          cp index.html admin.html auth.js export.js script.js style.css social-login.css babel.js dist/
+          cp index.html admin.html auth.js export.js script.js style.css social-login.css babel.js vocabulary.json dist/
           python -c "import json, os; p='dist/config.js'; open(p,'w').write('window.WHEATSPACE_CONFIG = '+json.dumps({'apiBase': os.environ['SUPABASE_URL'].rstrip('/')+'/functions/v1/api', 'publishableKey': os.environ['SUPABASE_PUBLISHABLE_KEY']})+';'+chr(10))"
           touch dist/.nojekyll
       - uses: actions/upload-pages-artifact@v3
