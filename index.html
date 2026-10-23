@@ -82,10 +82,15 @@
         }
 
         #root {
-            opacity: 0;
-            pointer-events: none;
+            opacity: 1;
+            pointer-events: auto;
             transition: opacity 1.5s ease-out;
         }
+
+        /* Keep the app available if the optional curtain animation fails. */
+        #curtain-container { display: none !important; }
+        #main-content { display: none !important; }
+        body { overflow: auto !important; }
 
         body.learning #root {
             opacity: 1;
