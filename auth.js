@@ -1,6 +1,6 @@
 // WheatSpace 认证工具函数 - 使用本地后端 API (基于阿里云短信验证)
 
-const API_BASE = window.WHEATSPACE_CONFIG?.apiBase || '/api';
+const AUTH_API_BASE = window.WHEATSPACE_CONFIG?.apiBase || '/api';
 
 /**
  * 发送短信验证码
@@ -8,7 +8,7 @@ const API_BASE = window.WHEATSPACE_CONFIG?.apiBase || '/api';
  */
 async function sendSmsCode(phone) {
     try {
-        const response = await fetch(`${API_BASE}/auth/send-sms`, {
+        const response = await fetch(`${AUTH_API_BASE}/auth/send-sms`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ phone })
@@ -29,7 +29,7 @@ async function sendSmsCode(phone) {
  */
 async function loginWithSms(phone, code) {
     try {
-        const response = await fetch(`${API_BASE}/auth/login-sms`, {
+        const response = await fetch(`${AUTH_API_BASE}/auth/login-sms`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ phone, code })
@@ -59,7 +59,7 @@ async function checkUserSession() {
     if (!token) return null;
     
     try {
-        const response = await fetch(`${API_BASE}/users/me`, {
+        const response = await fetch(`${AUTH_API_BASE}/users/me`, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         if (!response.ok) {
@@ -128,7 +128,7 @@ async function recordLearningAction(action, data = {}, duration_seconds = 0) {
     const token = localStorage.getItem('wheatspace_token');
     if (!token) return;
     try {
-        await fetch(`${API_BASE}/learning-records`, {
+        await fetch(`${AUTH_API_BASE}/learning-records`, {
             method: 'POST',
             headers: { 
                 'Content-Type': 'application/json',
